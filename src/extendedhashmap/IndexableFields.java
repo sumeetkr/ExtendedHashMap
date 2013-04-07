@@ -2,6 +2,6 @@ package extendedhashmap;
 import java.lang.reflect.*;
 import java.util.List;
 
-public interface IIndexableFields {
+public interface IndexableFields {
 	public List<Field> getIndexableFields();
 }

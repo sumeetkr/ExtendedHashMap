@@ -1,11 +1,12 @@
 package extendedhashmap;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-public class ExtendedHashMap<K, V extends IIndexableFields> extends HashMap<K, V> {
+public class ExtendedHashMap<K, V extends IndexableFields> extends HashMap<K, V> implements Indexable{
 
 	private HashMap<String, TreeMap<Object, String>> indexedFieldsTrees;
 	
@@ -24,6 +25,13 @@ public class ExtendedHashMap<K, V extends IIndexableFields> extends HashMap<K, V
 	@Override
 	public V get(Object key) {
 		return super.get(key);
+	}
+	
+	@Override
+	public List<Object> searchFields(String fieldName, Object fieldValue) {
+		List<Object> objectsWithMatchingFieldValueList = new ArrayList<Object>();
+		objectsWithMatchingFieldValueList.add(searchIndexablaFields(fieldName, fieldValue));
+		return objectsWithMatchingFieldValueList;
 	}
 	
 	public V searchIndexablaFields(String fieldName, Object fieldValue){

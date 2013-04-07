@@ -8,11 +8,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import extendedhashmap.IIndexableFields;
+import extendedhashmap.IndexableFields;
 
 public class ExtendedValueTest {
 
-	private IIndexableFields extendedValue;
+	private IndexableFields extendedValue;
 
 	@Before
 	public void setUp() throws Exception {

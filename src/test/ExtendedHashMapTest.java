@@ -12,11 +12,11 @@ public class ExtendedHashMapTest {
 	// query those entities based on some of their other attributes in
 	// constant time operation or logarithmic time.
 
-	private ExtendedHashMap<String, IIndexableFields> hashMap = null;
+	private ExtendedHashMap<String, IndexableFields> hashMap = null;
 
 	@Before
 	public void setup() {
-		this.hashMap = new ExtendedHashMap<String, IIndexableFields>();
+		this.hashMap = new ExtendedHashMap<String, IndexableFields>();
 		
 		String key = "key";
 		ExtendedValue value = new ExtendedValue();
@@ -27,7 +27,7 @@ public class ExtendedHashMapTest {
 
 	@Test
 	public void testExtendedHashMap() {
-		ExtendedHashMap<String, IIndexableFields> hashMap = new ExtendedHashMap<String, IIndexableFields>();
+		ExtendedHashMap<String, IndexableFields> hashMap = new ExtendedHashMap<String, IndexableFields>();
 
 		assertNotNull("construction failed", hashMap);
 	}

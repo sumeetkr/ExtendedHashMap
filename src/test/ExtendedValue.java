@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-import extendedhashmap.IIndexableFields;
+import extendedhashmap.IndexableFields;
 
-public class ExtendedValue implements IIndexableFields {
+public class ExtendedValue implements IndexableFields {
 
 	public String firstIndexableField;
 	public String secondIndexableField;
