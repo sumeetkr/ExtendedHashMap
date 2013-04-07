@@ -2,6 +2,6 @@ package extendedhashmap;
 
 import java.util.List;
 
-public interface Indexable {
-	public List<Object> searchFields(String fieldName, Object fieldValue);
+public interface Indexable<V extends IndexableFields> {
+	public List<V> searchFields(String fieldName, Object fieldValue);
 }

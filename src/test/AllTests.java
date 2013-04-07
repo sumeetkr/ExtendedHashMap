@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ ExtendedHashMapTest.class, ExtendedValueTest.class })
+@SuiteClasses({ IndexableHashMapTest.class, ExtendedValueTest.class })
 public class AllTests {
 
 }
