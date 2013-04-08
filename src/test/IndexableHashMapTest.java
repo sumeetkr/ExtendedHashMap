@@ -20,15 +20,10 @@ public class IndexableHashMapTest {
 	@Before
 	public void setup() {
 		this.hashMap = new IndexableHashMap<String, IndexableFields>();
-		
-		String key = "key";
-		ExtendedValue value = new ExtendedValue();
-		this.hashMap.put(key, value);
-
 	}
 
 	@Test
-	public void testExtendedHashMap() {
+	public void testExtendedHashMapConstruction() {
 		IndexableHashMap<String, IndexableFields> hashMap = new IndexableHashMap<String, IndexableFields>();
 
 		assertNotNull("construction failed", hashMap);
@@ -37,45 +32,106 @@ public class IndexableHashMapTest {
 	@Test
 	public void testPutKV() {
 		String key = "firstKey";
-		ExtendedValue value = new ExtendedValue();
+		Customer value = new Customer();
 
 		this.hashMap.put(key, value);
-		assertNotNull("value was not added", this.hashMap.get(key));
+		assertNotNull("value should be present after put", this.hashMap.get(key));
 	}
 
 	@Test
 	public void testGetObject() {
-		assertNotNull("value was not added", this.hashMap.get("key"));
+		String key = "key";
+		Customer value = new Customer();
+		this.hashMap.put(key, value);
+		assertNotNull("value was not present", this.hashMap.get("key"));
 	}
 
 	@Test
-	public void testSearchFields() {
-		
-		assertNotNull("value was not searched", this.hashMap.searchFields("firstIndexableField","firstValue"));
-	}
+	public void testSearchFieldsWithOneValue() {
 
-	@Test
-	public void testSearchFieldsWithTwoItems() {
-		
-		String key = "key2";
-		ExtendedValue value = new ExtendedValue();
-		value.firstIndexableField = "firstValue2";
-		value.secondIndexableField = "secondValue2";
+		Customer value = new Customer();
+		value.name = "Sumeet";
+		value.address = "Sunnyyvale";
+
+		String key = "key";
 		this.hashMap.put(key, value);
 		
+		assertTrue("value should be returned by search", this.hashMap.searchFieldsInIndex("name","Sumeet").size() == 1);
+	}
+
+	@Test
+	public void testSearchFieldsWithTwoValuesWhenBothMatch() {
+		
+		String key = "key2";
+		Customer firstCustomer = new Customer();
+		firstCustomer.name = "Kumar";
+		firstCustomer.address = "secondValue2";
+		this.hashMap.put(key, firstCustomer);
+		
 		String anotherKey = "key3";
-		ExtendedValue anotherValue = new ExtendedValue();
-		anotherValue.firstIndexableField = "firstValue2";
-		anotherValue.secondIndexableField = "secondValue3";
-		this.hashMap.put(anotherKey, anotherValue);
+		Customer secondCustomer = new Customer();
+		secondCustomer.name = "Kumar";
+		secondCustomer.address = "secondValue3";
+		this.hashMap.put(anotherKey, secondCustomer);
 		
 		
-		List<IndexableFields> valuesForFirstIndexableField = this.hashMap.searchFields("firstIndexableField","firstValue2");
+		List<IndexableFields> valuesForFirstIndexableField = this.hashMap.searchFieldsInIndex("name","Kumar");
 		assertNotNull("value was not searched", valuesForFirstIndexableField);
 		assertTrue("Not all fields indexed", valuesForFirstIndexableField.size() == 2);
+	}
+	
+	@Test
+	public void testSearchFieldsWithTwoValuesButOnlyOneMatch() {
+		String key = "key2";
+		Customer firstCustomer = new Customer();
+		firstCustomer.name = "Sumeet";
+		firstCustomer.address = "Sunnyvale";
+		this.hashMap.put(key, firstCustomer);
 		
-		List<IndexableFields> valuesForSecondIndexableField = this.hashMap.searchFields("secondIndexableField","secondValue2");
-		assertNotNull("value was not searched", valuesForSecondIndexableField);
+		String anotherKey = "key3";
+		Customer secondCustomer = new Customer();
+		secondCustomer.name = "Sumeet";
+		secondCustomer.address = "SantaClara";
+		this.hashMap.put(anotherKey, secondCustomer);
+	
+		List<IndexableFields> valuesForSecondIndexableField = this.hashMap.searchFieldsInIndex("address","Sunnyvale");
+		assertNotNull("value should be returned by serach of index fields", valuesForSecondIndexableField);
 		assertTrue("Not all fields indexed", valuesForSecondIndexableField.size() == 1);
 	}
+	
+	@Test
+	public void testRemove(){
+		String key = "key2";
+		Customer firstCustomer = new Customer();
+		firstCustomer.name = "Sumeet";
+		firstCustomer.address = "Sunnyvale";
+		this.hashMap.put(key, firstCustomer);
+		
+		assertNotNull("value should be present after put", this.hashMap.get(key));
+		
+		this.hashMap.remove(key);
+		assertNull("value should not be present after remove", this.hashMap.get(key));
+		
+	}
+	
+	@Test
+	public void testRemoveShouldCleanIndex(){
+		Customer value = new Customer();
+		value.name = "Sumeet";
+		value.address = "Sunnyvale";
+
+		String key = "key";
+		this.hashMap.put(key, value);
+		
+		assertTrue("value should be returned by search", this.hashMap.searchFieldsInIndex("name","Sumeet").size() == 1);
+		assertTrue("value should be returned by search", this.hashMap.searchFieldsInIndex("address","Sunnyvale").size()== 1);
+		
+		this.hashMap.remove(key);
+		assertNull("value should not be present after remove", this.hashMap.get(key));
+		
+		List<IndexableFields> valuesForSecondIndexableField = this.hashMap.searchFieldsInIndex("address","Sunnyvale");
+		assertTrue("Index should not be cleaned after remove", valuesForSecondIndexableField.size() == 0);
+		
+	}
+	
 }

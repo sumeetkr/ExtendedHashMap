@@ -6,14 +6,14 @@ import java.util.List;
 
 import extendedhashmap.IndexableFields;
 
-public class ExtendedValue implements IndexableFields {
+public class Customer implements IndexableFields {
 
-	public String firstIndexableField;
-	public String secondIndexableField;
+	public String name;
+	public String address;
 	
-	public ExtendedValue(){
-		this.firstIndexableField = "firstValue";
-		this.secondIndexableField = "secondvalue";
+	public Customer(){
+		this.name = "Sumeet";
+		this.address = "Sunnyvale";
 	}
 	
 	@Override
